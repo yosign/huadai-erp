@@ -53,7 +53,7 @@ export default function NewCustomerPage() {
   }
 
   return (
-    <Card className="mx-auto max-w-4xl">
+    <Card>
       <CardHeader>
         <CardTitle>新建客户</CardTitle>
       </CardHeader>

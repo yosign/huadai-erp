@@ -49,7 +49,7 @@ export default function NewCasePage() {
   }
 
   return (
-    <Card className="mx-auto max-w-4xl">
+    <Card>
       <CardHeader>
         <CardTitle>新建案件</CardTitle>
       </CardHeader>
