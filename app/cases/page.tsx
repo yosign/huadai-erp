@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cases, type CaseStatus } from "@/lib/mock-data"
 import { caseStatusClassName, cn, currency, getCustomerName } from "@/lib/utils"
 
@@ -23,16 +24,12 @@ export default function CasesPage() {
           <Plus className="size-5" />新建案件
         </Link>
       </div>
-      <div className="inline-flex rounded-lg bg-muted p-1 text-sm">
-        <button
-          onClick={() => setView("board")}
-          className={cn("rounded-md px-3 py-1 font-medium transition-colors", view === "board" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
-        >看板视图</button>
-        <button
-          onClick={() => setView("table")}
-          className={cn("rounded-md px-3 py-1 font-medium transition-colors", view === "table" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
-        >表格视图</button>
-      </div>
+      <Tabs value={view} onValueChange={(v) => setView(v as "board" | "table")}>
+        <TabsList>
+          <TabsTrigger value="board">看板视图</TabsTrigger>
+          <TabsTrigger value="table">表格视图</TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {view === "board" && (
         <div className="grid gap-4 xl:grid-cols-5">
