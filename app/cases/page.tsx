@@ -25,7 +25,7 @@ export default function CasesPage() {
         </Link>
       </div>
       <Tabs value={view} onValueChange={(v) => setView(v as "board" | "table")}>
-        <TabsList>
+        <TabsList variant="line">
           <TabsTrigger value="board">看板视图</TabsTrigger>
           <TabsTrigger value="table">表格视图</TabsTrigger>
         </TabsList>

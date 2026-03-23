@@ -41,7 +41,7 @@ function ShellNav({ collapsed, pathname }: { collapsed: boolean; pathname: strin
             key={item.href}
             variant="ghost"
             render={<Link href={item.href} />}
-            className={cn("w-full justify-start gap-3 px-3 py-5 text-sm", active ? "bg-sidebar-primary text-sidebar-primary-foreground" : "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground", collapsed && "justify-center px-0")}
+            className={cn("w-full justify-start gap-3 px-3 py-5 text-sm", active ? "bg-primary/10 text-primary font-semibold" : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground", collapsed && "justify-center px-0")}
           >
             <item.icon className="size-4" />
             {!collapsed ? <span>{item.label}</span> : null}
