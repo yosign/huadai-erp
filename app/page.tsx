@@ -1,15 +1,18 @@
+"use client"
+
 import Link from "next/link"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { cases, customers, incomeTrend, paymentRecords, tickets, todoReminders } from "@/lib/mock-data"
 import { currency, getCustomerName, getStatusClass } from "@/lib/utils"
 
 export default function Page() {
   const monthlyPayments = paymentRecords.reduce((sum, item) => sum + item.received, 0)
-  const maxIncome = Math.max(...incomeTrend.map((item) => item.amount))
 
   return (
     <div className="space-y-6">
@@ -18,16 +21,16 @@ export default function Page() {
           <h1 className="text-3xl font-semibold tracking-tight">软著代理经营总览</h1>
           <p className="text-sm text-muted-foreground">围绕客户、案件、财务和服务的日常协同看板。</p>
         </div>
-        <Link href="/cases/new" className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90" style={{color: 'var(--primary-foreground)'}}>
+        <Link href="/cases/new" className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-base font-medium text-primary-foreground transition-opacity hover:opacity-90" style={{color: 'var(--primary-foreground)'}}>
           新建案件
         </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <Card><CardHeader><CardDescription>本月新签客户</CardDescription><CardTitle>8</CardTitle></CardHeader><CardContent className="text-sm text-primary">较上月 +18%</CardContent></Card>
-        <Card><CardHeader><CardDescription>在办案件数</CardDescription><CardTitle>{cases.filter((item) => item.status !== "已完成").length}</CardTitle></CardHeader><CardContent className="text-sm text-muted-foreground">覆盖 {customers.length} 家客户</CardContent></Card>
-        <Card><CardHeader><CardDescription>本月回款</CardDescription><CardTitle>{currency(monthlyPayments)}</CardTitle></CardHeader><CardContent className="text-sm text-muted-foreground">到账率 72%</CardContent></Card>
-        <Card><CardHeader><CardDescription>待处理工单</CardDescription><CardTitle>{tickets.filter((item) => item.status !== "已处理").length}</CardTitle></CardHeader><CardContent className="text-sm text-muted-foreground">客服与案件协同处理中</CardContent></Card>
+        <Card className="gap-2 pb-3"><CardHeader><CardDescription>本月新签客户</CardDescription><CardTitle className="mt-1.5 text-3xl font-semibold font-mono tracking-tight leading-none">8</CardTitle></CardHeader><CardContent className="text-sm text-primary">较上月 +18%</CardContent></Card>
+        <Card className="gap-2 pb-3"><CardHeader><CardDescription>在办案件数</CardDescription><CardTitle className="mt-1.5 text-3xl font-semibold font-mono tracking-tight leading-none">{cases.filter((item) => item.status !== "已完成").length}</CardTitle></CardHeader><CardContent className="text-sm text-muted-foreground">覆盖 {customers.length} 家客户</CardContent></Card>
+        <Card className="gap-2 pb-3"><CardHeader><CardDescription>本月回款</CardDescription><CardTitle className="mt-1.5 text-3xl font-semibold font-mono tracking-tight leading-none">{currency(monthlyPayments)}</CardTitle></CardHeader><CardContent className="text-sm text-muted-foreground">到账率 72%</CardContent></Card>
+        <Card className="gap-2 pb-3"><CardHeader><CardDescription>待处理工单</CardDescription><CardTitle className="mt-1.5 text-3xl font-semibold font-mono tracking-tight leading-none">{tickets.filter((item) => item.status !== "已处理").length}</CardTitle></CardHeader><CardContent className="text-sm text-muted-foreground">客服与案件协同处理中</CardContent></Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
@@ -85,22 +88,24 @@ export default function Page() {
       <Card>
         <CardHeader>
           <CardTitle>月度收入趋势</CardTitle>
-          <CardDescription>使用柱状占比模拟近六个月回款表现。</CardDescription>
+          <CardDescription>近6个月回款金额走势</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-6">
-            {incomeTrend.map((item) => (
-              <Card key={item.month} size="sm">
-                <CardContent className="flex flex-col gap-3 p-4">
-                  <div className="text-sm font-medium">{item.month}</div>
-                  <div className="flex h-44 items-end rounded-md bg-muted p-2">
-                    <div style={{ height: `${(item.amount / maxIncome) * 100}%` }} className="w-full rounded-sm bg-primary" />
-                  </div>
-                  <div className="text-sm text-muted-foreground">{currency(item.amount)}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <ChartContainer config={{ amount: { label: "回款金额", color: "var(--primary)" } }} className="h-48 w-full">
+            <AreaChart data={incomeTrend} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="fillAmount" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="var(--primary)" stopOpacity={0.02} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} stroke="var(--border)" />
+              <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} />
+              <YAxis tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} tickFormatter={(v) => `¥${(v / 1000).toFixed(0)}k`} />
+              <ChartTooltip content={<ChartTooltipContent formatter={(value) => [`¥${Number(value).toLocaleString()}`, "回款金额"]} />} />
+              <Area type="monotone" dataKey="amount" stroke="var(--primary)" strokeWidth={2} fill="url(#fillAmount)" dot={{ fill: "var(--primary)", r: 3 }} activeDot={{ r: 5 }} />
+            </AreaChart>
+          </ChartContainer>
         </CardContent>
       </Card>
     </div>

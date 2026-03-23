@@ -65,7 +65,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background">
       <div className="flex min-h-screen">
-        <aside className={cn("hidden border-r border-border bg-sidebar px-4 py-5 backdrop-blur md:flex md:flex-col", collapsed ? "md:w-24" : "md:w-72")}>
+        <aside className={cn("hidden border-r border-border bg-sidebar px-4 pt-[9px] pb-5 backdrop-blur md:flex md:flex-col", collapsed ? "md:w-24" : "md:w-72")}>
           <div className="flex items-center justify-between gap-3">
             {!collapsed ? (
               <div>
@@ -79,7 +79,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Menu className="size-4" />
             </Button>
           </div>
-          <Separator />
+          <Separator className="mt-4 mb-4" />
           <div className="flex-1">
             <ShellNav collapsed={collapsed} pathname={pathname} />
           </div>

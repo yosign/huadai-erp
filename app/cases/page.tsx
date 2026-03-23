@@ -19,8 +19,8 @@ export default function CasesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold tracking-tight">案件列表</h1>
-        <Link href="/cases/new" className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90" style={{color: 'var(--primary-foreground)'}}>
-          <Plus className="size-4" />新建案件
+        <Link href="/cases/new" className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-base font-medium text-primary-foreground transition-opacity hover:opacity-90" style={{color: 'var(--primary-foreground)'}}>
+          <Plus className="size-5" />新建案件
         </Link>
       </div>
       <div className="inline-flex rounded-lg bg-muted p-1 text-sm">

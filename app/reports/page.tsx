@@ -1,6 +1,10 @@
+"use client"
+
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
 import { cases, customers, incomeTrend, paymentRecords, tickets } from "@/lib/mock-data"
 import { currency } from "@/lib/utils"
 
@@ -12,7 +16,6 @@ const ranking = [
 ]
 
 export default function ReportsPage() {
-  const maxIncome = Math.max(...incomeTrend.map((item) => item.amount))
   const kpis = [
     { label: "客户总数", value: `${customers.length}` },
     { label: "案件总数", value: `${cases.length}` },
@@ -29,7 +32,7 @@ export default function ReportsPage() {
           <Card key={item.label}>
             <CardHeader>
               <CardDescription>{item.label}</CardDescription>
-              <CardTitle>{item.value}</CardTitle>
+              <CardTitle className="text-2xl font-semibold font-mono tracking-tight leading-none">{item.value}</CardTitle>
             </CardHeader>
           </Card>
         ))}
@@ -42,20 +45,15 @@ export default function ReportsPage() {
             <CardDescription>近六个月经营节奏。</CardDescription>
           </CardHeader>
           <CardContent>
-            <Separator className="mb-4" />
-            <div className="grid gap-4 md:grid-cols-6">
-              {incomeTrend.map((item) => (
-                <Card key={item.month} size="sm">
-                  <CardContent className="p-4">
-                    <div className="mb-4 text-sm font-medium">{item.month}</div>
-                    <div className="flex h-40 items-end rounded-md bg-muted p-2">
-                      <div style={{ height: `${(item.amount / maxIncome) * 100}%` }} className="w-full rounded-sm bg-primary" />
-                    </div>
-                    <div className="mt-3 text-sm text-muted-foreground">{currency(item.amount)}</div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <ChartContainer config={{ amount: { label: "回款金额", color: "var(--primary)" } }} className="h-56 w-full">
+              <BarChart data={incomeTrend} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+                <CartesianGrid vertical={false} stroke="var(--border)" />
+                <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} />
+                <YAxis tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} tickFormatter={(v) => `¥${(v / 1000).toFixed(0)}k`} />
+                <ChartTooltip content={<ChartTooltipContent formatter={(value) => [`¥${Number(value).toLocaleString()}`, "回款金额"]} />} />
+                <Bar dataKey="amount" fill="var(--primary)" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ChartContainer>
           </CardContent>
         </Card>
 
