@@ -91,8 +91,8 @@ export default function Page() {
           <CardDescription>近6个月回款金额走势</CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={{ amount: { label: "回款金额", color: "var(--primary)" } }} className="h-48 w-full">
-            <AreaChart data={incomeTrend} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+          <ChartContainer config={{ amount: { label: "回款金额", color: "var(--primary)" } }} className="h-56 w-full">
+            <AreaChart data={incomeTrend} margin={{ top: 10, right: 16, left: 8, bottom: 0 }}>
               <defs>
                 <linearGradient id="fillAmount" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
@@ -103,7 +103,7 @@ export default function Page() {
               <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} />
               <YAxis tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} tickFormatter={(v) => `¥${(v / 1000).toFixed(0)}k`} />
               <ChartTooltip content={<ChartTooltipContent formatter={(value) => [`¥${Number(value).toLocaleString()}`, "回款金额"]} />} />
-              <Area type="monotone" dataKey="amount" stroke="var(--primary)" strokeWidth={2} fill="url(#fillAmount)" dot={{ fill: "var(--primary)", r: 3 }} activeDot={{ r: 5 }} />
+              <Area type="monotone" dataKey="amount" stroke="var(--primary)" strokeWidth={2} fill="url(#fillAmount)" dot={{ fill: "var(--primary)", r: 3 }} activeDot={{ r: 5 }} isAnimationActive={false} />
             </AreaChart>
           </ChartContainer>
         </CardContent>
