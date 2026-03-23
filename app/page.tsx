@@ -49,7 +49,7 @@ export default function Page() {
               </defs>
               <CartesianGrid vertical={false} stroke="var(--border)" />
               <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} />
-              <YAxis tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} tickFormatter={(v) => `¥${(v / 1000).toFixed(0)}k`} />
+              <YAxis width={52} tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: "var(--muted-foreground)", textAnchor: "start", x: 0 }} tickFormatter={(v) => `¥${(v / 1000).toFixed(0)}k`} />
               <ChartTooltip content={<ChartTooltipContent formatter={(value) => [`¥${Number(value).toLocaleString()}`, "回款金额"]} />} />
               <Area type="monotone" dataKey="amount" stroke="var(--primary)" strokeWidth={2} fill="url(#fillAmount)" dot={{ fill: "var(--primary)", r: 3 }} activeDot={{ r: 5 }} isAnimationActive={false} />
             </AreaChart>
