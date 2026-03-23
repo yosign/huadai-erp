@@ -1,34 +1,40 @@
 "use client"
 
 import Link from "next/link"
+import { useState } from "react"
+import { Plus } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { cases, type CaseStatus } from "@/lib/mock-data"
-import { caseStatusClassName, currency, getCustomerName } from "@/lib/utils"
+import { caseStatusClassName, cn, currency, getCustomerName } from "@/lib/utils"
 
 const columns: CaseStatus[] = ["待提交", "受理中", "审查中", "下证中", "已完成"]
 
 export default function CasesPage() {
+  const [view, setView] = useState<"board" | "table">("board")
   return (
-    <Tabs defaultValue="board" className="space-y-6">
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold tracking-tight">案件列表</h1>
-        <div className="flex flex-wrap items-center gap-2">
-          <TabsList>
-            <TabsTrigger value="board">看板视图</TabsTrigger>
-            <TabsTrigger value="table">表格视图</TabsTrigger>
-          </TabsList>
-          <Button asChild>
-            <Link href="/cases/new">新建案件</Link>
-          </Button>
-        </div>
+        <Link href="/cases/new" className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90" style={{color: 'var(--primary-foreground)'}}>
+          <Plus className="size-4" />新建案件
+        </Link>
+      </div>
+      <div className="inline-flex rounded-lg bg-muted p-1 text-sm">
+        <button
+          onClick={() => setView("board")}
+          className={cn("rounded-md px-3 py-1 font-medium transition-colors", view === "board" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+        >看板视图</button>
+        <button
+          onClick={() => setView("table")}
+          className={cn("rounded-md px-3 py-1 font-medium transition-colors", view === "table" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+        >表格视图</button>
       </div>
 
-      <TabsContent value="board">
+      {view === "board" && (
         <div className="grid gap-4 xl:grid-cols-5">
           {columns.map((column) => (
             <Card key={column}>
@@ -52,9 +58,9 @@ export default function CasesPage() {
             </Card>
           ))}
         </div>
-      </TabsContent>
+      )}
 
-      <TabsContent value="table">
+      {view === "table" && (
         <Card>
           <CardContent className="py-6">
             <Table>
@@ -87,7 +93,7 @@ export default function CasesPage() {
             </Table>
           </CardContent>
         </Card>
-      </TabsContent>
-    </Tabs>
+      )}
+    </div>
   )
 }

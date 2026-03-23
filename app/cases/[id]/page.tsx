@@ -35,8 +35,8 @@ export default async function CaseDetailPage(props: PageProps<"/cases/[id]">) {
               return (
                 <div key={step} className="flex gap-4">
                   <div className="flex flex-col items-center">
-                    <div className={`size-3 rounded-full ${done ? "bg-primary" : "bg-slate-200"}`} />
-                    {index < steps.length - 1 ? <div className={`mt-2 h-12 w-px ${done ? "bg-primary/40" : "bg-slate-200"}`} /> : null}
+                    <div className={`size-3 rounded-full ${done ? "bg-primary" : "bg-muted"}`} />
+                    {index < steps.length - 1 ? <div className={`mt-2 h-12 w-px ${done ? "bg-primary/40" : "bg-border"}`} /> : null}
                   </div>
                   <div className="pb-4">
                     <div className="flex items-center gap-2"><span className="font-medium">{step}</span>{step === item.status ? <Badge className={caseStatusClassName(item.status)}>{item.status}</Badge> : null}</div>
@@ -67,7 +67,7 @@ export default async function CaseDetailPage(props: PageProps<"/cases/[id]">) {
             <CardHeader><CardTitle>材料清单</CardTitle></CardHeader>
             <CardContent className="space-y-3">
               {item.materials.map((material) => (
-                <label key={material.id} className="flex items-center gap-3 rounded-xl border border-border/70 bg-background/70 p-3">
+                <label key={material.id} className="flex items-center gap-3 rounded-xl border border-border bg-muted p-3">
                   <Checkbox checked={material.checked} disabled />
                   <span className="text-sm">{material.label}</span>
                 </label>

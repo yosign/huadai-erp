@@ -54,9 +54,13 @@ export default function CustomersPage() {
               {["全部等级", "VIP", "重点", "普通"].map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}
             </SelectContent>
           </Select>
-          <Button asChild>
-            <Link href="/customers/new">新建客户</Link>
-          </Button>
+          <Link
+            href="/customers/new"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            style={{color: 'var(--primary-foreground)'}}
+          >
+            新建客户
+          </Link>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">

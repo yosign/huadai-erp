@@ -1,29 +1,76 @@
 import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+import { cases, contracts, customers, paymentRecords, tickets, type PaymentRecord } from "@/lib/mock-data"
 
-import { cases, contracts, customers, paymentRecords, tickets, type CaseStatus, type PaymentStatus, type ServiceLevel, type SignStatus, type TicketStatus } from "@/lib/mock-data"
-
-export function cn(...values: ClassValue[]) {
-  return clsx(values)
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
 }
 
-export function currency(value: number) {
-  return `¥${value.toLocaleString("zh-CN")}`
+export function currency(amount: number): string {
+  return "¥ " + amount.toLocaleString("zh-CN")
 }
 
-export function getCustomerName(customerId: string) {
-  return customers.find((item) => item.id === customerId)?.name ?? "--"
+export function getCustomerName(id: string): string {
+  return customers.find((c) => c.id === id)?.name ?? id
 }
 
-export function getCaseName(caseId: string) {
-  return cases.find((item) => item.id === caseId)?.name ?? "--"
+export function getCaseName(id: string): string {
+  return cases.find((item) => item.id === id)?.name ?? id
 }
 
-export function getCustomerById(customerId: string) {
-  return customers.find((item) => item.id === customerId)
+export function caseStatusClassName(status: string): string {
+  const map: Record<string, string> = {
+    "待提交": "bg-gray-100 text-gray-600",
+    "受理中": "bg-blue-100 text-blue-700",
+    "审查中": "bg-yellow-100 text-yellow-700",
+    "下证中": "bg-purple-100 text-purple-700",
+    "已完成": "bg-green-100 text-green-700",
+  }
+  return map[status] ?? "bg-gray-100 text-gray-600"
 }
 
-export function getCaseById(caseId: string) {
-  return cases.find((item) => item.id === caseId)
+export function getStatusClass(status: string): string {
+  const map: Record<string, string> = {
+    "待提交": "bg-gray-100 text-gray-600",
+    "受理中": "bg-blue-100 text-blue-700",
+    "审查中": "bg-yellow-100 text-yellow-700",
+    "下证中": "bg-purple-100 text-purple-700",
+    "已完成": "bg-green-100 text-green-700",
+    "签约中": "bg-amber-100 text-amber-700",
+    "已续签": "bg-emerald-100 text-emerald-700",
+    "已到期": "bg-orange-100 text-orange-700",
+    "流失": "bg-slate-200 text-slate-700",
+    VIP: "bg-rose-100 text-rose-700",
+    "重点": "bg-blue-100 text-blue-700",
+    "普通": "bg-slate-100 text-slate-700",
+    "执行中": "bg-blue-100 text-blue-700",
+    "待续签": "bg-orange-100 text-orange-700",
+    "已收款": "bg-emerald-100 text-emerald-700",
+    "部分收款": "bg-amber-100 text-amber-700",
+    "逾期未收": "bg-rose-100 text-rose-700",
+    "待处理": "bg-slate-100 text-slate-700",
+    "处理中": "bg-blue-100 text-blue-700",
+    "已处理": "bg-emerald-100 text-emerald-700",
+    "已开票": "bg-emerald-100 text-emerald-700",
+    "待开票": "bg-amber-100 text-amber-700",
+    "已寄送": "bg-blue-100 text-blue-700",
+  }
+
+  return map[status] ?? caseStatusClassName(status)
+}
+
+export function paymentStatusClassName(status: string): string {
+  return getStatusClass(status)
+}
+
+export function ticketStatusClassName(status: string): string {
+  return getStatusClass(status)
+}
+
+export function getPaymentTag(payment: PaymentRecord): "default" | "warning" | "danger" {
+  if (payment.status === "逾期未收") return "danger"
+  if (payment.status === "部分收款") return "warning"
+  return "default"
 }
 
 export function getCustomerCases(customerId: string) {
@@ -40,67 +87,4 @@ export function getCustomerPayments(customerId: string) {
 
 export function getCustomerTickets(customerId: string) {
   return tickets.filter((item) => item.client === customerId)
-}
-
-export function getPaymentTag(payment: { dueDate: string; status: PaymentStatus }) {
-  const today = new Date("2024-06-10")
-  const dueDate = new Date(payment.dueDate)
-  const diff = Math.ceil((dueDate.getTime() - today.getTime()) / 86400000)
-  if (payment.status === "逾期未收" || diff < 0) return "danger"
-  if (diff <= 7) return "warning"
-  return "normal"
-}
-
-export function getStatusClass(status: string): string {
-  const map: Record<string, string> = {
-    待提交: "border-gray-200 bg-gray-100 text-gray-600",
-    受理中: "border-blue-200 bg-blue-100 text-blue-800",
-    审查中: "border-orange-200 bg-orange-100 text-orange-800",
-    下证中: "border-purple-200 bg-purple-100 text-purple-800",
-    已完成: "border-green-200 bg-green-100 text-green-800",
-    签约中: "border-indigo-200 bg-indigo-100 text-indigo-800",
-    已续签: "border-green-200 bg-green-100 text-green-800",
-    已到期: "border-red-200 bg-red-100 text-red-800",
-    流失: "border-gray-200 bg-gray-100 text-gray-500",
-    VIP: "border-amber-200 bg-amber-100 text-amber-800",
-    重点: "border-blue-200 bg-blue-100 text-blue-800",
-    普通: "border-gray-200 bg-gray-100 text-gray-600",
-    已处理: "border-green-200 bg-green-100 text-green-800",
-    待处理: "border-orange-200 bg-orange-100 text-orange-800",
-    处理中: "border-blue-200 bg-blue-100 text-blue-800",
-    已收款: "border-green-200 bg-green-100 text-green-800",
-    部分收款: "border-orange-200 bg-orange-100 text-orange-800",
-    逾期未收: "border-red-200 bg-red-100 text-red-800",
-    执行中: "border-blue-200 bg-blue-100 text-blue-800",
-    待续签: "border-amber-200 bg-amber-100 text-amber-800",
-    待开票: "border-amber-200 bg-amber-100 text-amber-800",
-    已开票: "border-green-200 bg-green-100 text-green-800",
-    已寄送: "border-blue-200 bg-blue-100 text-blue-800",
-    材料补正: "border-amber-200 bg-amber-100 text-amber-800",
-    财务催收: "border-red-200 bg-red-100 text-red-800",
-    案件跟进: "border-sky-200 bg-sky-100 text-sky-800",
-    销售推进: "border-emerald-200 bg-emerald-100 text-emerald-800",
-  }
-
-  return map[status] ?? "border-gray-200 bg-gray-100 text-gray-600"
-}
-
-export function signStatusClassName(status: SignStatus) {
-  return getStatusClass(status)
-}
-
-export function serviceLevelClassName(level: ServiceLevel) {
-  return getStatusClass(level)
-}
-
-export function caseStatusClassName(status: CaseStatus) {
-  return getStatusClass(status)
-}
-
-export function paymentStatusClassName(status: PaymentStatus) {
-  return getStatusClass(status)
-}
-
-export function ticketStatusClassName(status: TicketStatus) {
-  return getStatusClass(status)
 }

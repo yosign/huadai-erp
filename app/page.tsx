@@ -3,7 +3,6 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { cases, customers, incomeTrend, paymentRecords, tickets, todoReminders } from "@/lib/mock-data"
 import { currency, getCustomerName, getStatusClass } from "@/lib/utils"
@@ -19,13 +18,13 @@ export default function Page() {
           <h1 className="text-3xl font-semibold tracking-tight">软著代理经营总览</h1>
           <p className="text-sm text-muted-foreground">围绕客户、案件、财务和服务的日常协同看板。</p>
         </div>
-        <Button asChild>
-          <Link href="/cases/new">新建案件</Link>
-        </Button>
+        <Link href="/cases/new" className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90" style={{color: 'var(--primary-foreground)'}}>
+          新建案件
+        </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <Card><CardHeader><CardDescription>本月新签客户</CardDescription><CardTitle>8</CardTitle></CardHeader><CardContent className="text-sm text-emerald-600">较上月 +18%</CardContent></Card>
+        <Card><CardHeader><CardDescription>本月新签客户</CardDescription><CardTitle>8</CardTitle></CardHeader><CardContent className="text-sm text-primary">较上月 +18%</CardContent></Card>
         <Card><CardHeader><CardDescription>在办案件数</CardDescription><CardTitle>{cases.filter((item) => item.status !== "已完成").length}</CardTitle></CardHeader><CardContent className="text-sm text-muted-foreground">覆盖 {customers.length} 家客户</CardContent></Card>
         <Card><CardHeader><CardDescription>本月回款</CardDescription><CardTitle>{currency(monthlyPayments)}</CardTitle></CardHeader><CardContent className="text-sm text-muted-foreground">到账率 72%</CardContent></Card>
         <Card><CardHeader><CardDescription>待处理工单</CardDescription><CardTitle>{tickets.filter((item) => item.status !== "已处理").length}</CardTitle></CardHeader><CardContent className="text-sm text-muted-foreground">客服与案件协同处理中</CardContent></Card>
@@ -95,7 +94,7 @@ export default function Page() {
                 <CardContent className="flex flex-col gap-3 p-4">
                   <div className="text-sm font-medium">{item.month}</div>
                   <div className="flex h-44 items-end rounded-md bg-muted p-2">
-                    <div className="w-full rounded-md bg-primary" style={{ height: `${(item.amount / maxIncome) * 100}%` }} />
+                    <div style={{ height: `${(item.amount / maxIncome) * 100}%` }} className="w-full rounded-sm bg-primary" />
                   </div>
                   <div className="text-sm text-muted-foreground">{currency(item.amount)}</div>
                 </CardContent>

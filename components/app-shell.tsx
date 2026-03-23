@@ -63,9 +63,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [pathname])
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.14),_transparent_30%),linear-gradient(180deg,#f8fafc_0%,#eef4ff_100%)]">
+    <div className="min-h-screen bg-background">
       <div className="flex min-h-screen">
-        <aside className={cn("hidden border-r border-border/70 bg-white/80 px-4 py-5 backdrop-blur md:flex md:flex-col", collapsed ? "md:w-24" : "md:w-72")}>
+        <aside className={cn("hidden border-r border-border bg-sidebar px-4 py-5 backdrop-blur md:flex md:flex-col", collapsed ? "md:w-24" : "md:w-72")}>
           <div className="flex items-center justify-between gap-3">
             {!collapsed ? (
               <div>
@@ -79,11 +79,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Menu className="size-4" />
             </Button>
           </div>
-          <Separator className="my-4" />
+          <Separator />
           <div className="flex-1">
             <ShellNav collapsed={collapsed} pathname={pathname} />
           </div>
-          <div className="mt-4 flex items-center gap-3 rounded-2xl border border-border/70 bg-background/70 p-3">
+          <div className="mt-4 flex items-center gap-3 rounded-2xl border border-border bg-muted p-3">
             <Avatar size="sm">
               <AvatarFallback>管</AvatarFallback>
             </Avatar>
@@ -97,7 +97,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="sticky top-0 z-20 border-b border-border/70 bg-white/85 backdrop-blur">
+          <header className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur">
             <div className="flex items-center justify-between gap-4 px-4 py-4 md:px-8">
               <div className="flex items-center gap-3">
                 <div className="md:hidden">
@@ -105,8 +105,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     <SheetTrigger render={<Button variant="ghost" size="icon-sm" />}>
                       <Menu className="size-4" />
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-72 border-r border-border/70 bg-white/95 p-0">
-                      <SheetHeader className="border-b border-border/70">
+                    <SheetContent side="left" className="w-72 border-r border-border bg-sidebar p-0">
+                      <SheetHeader className="border-b border-border">
                         <SheetTitle>华代优服</SheetTitle>
                       </SheetHeader>
                       <div className="p-4">

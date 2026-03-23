@@ -42,14 +42,14 @@ export default function ReportsPage() {
             <CardDescription>近六个月经营节奏。</CardDescription>
           </CardHeader>
           <CardContent>
-            <Separator className="mb-4 bg-border/40" />
+            <Separator className="mb-4" />
             <div className="grid gap-4 md:grid-cols-6">
               {incomeTrend.map((item) => (
                 <Card key={item.month} size="sm">
                   <CardContent className="p-4">
                     <div className="mb-4 text-sm font-medium">{item.month}</div>
                     <div className="flex h-40 items-end rounded-md bg-muted p-2">
-                      <div className="w-full rounded-md bg-primary" style={{ height: `${(item.amount / maxIncome) * 100}%` }} />
+                      <div style={{ height: `${(item.amount / maxIncome) * 100}%` }} className="w-full rounded-sm bg-primary" />
                     </div>
                     <div className="mt-3 text-sm text-muted-foreground">{currency(item.amount)}</div>
                   </CardContent>
