@@ -83,7 +83,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="flex-1">
             <ShellNav collapsed={collapsed} pathname={pathname} />
           </div>
-          <div className="mt-4 flex items-center gap-3 rounded-lg border border-border bg-muted p-3">
+          <div className="mt-4 flex items-center gap-3 border border-border bg-muted p-3">
             <Avatar size="sm">
               <AvatarFallback>管</AvatarFallback>
             </Avatar>
