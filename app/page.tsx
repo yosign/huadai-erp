@@ -34,14 +34,13 @@ export default function Page() {
       </div>
 
       <Card>
-        <div className="flex items-start gap-4 px-4 pt-4">
-          <div className="w-28 shrink-0">
-            <div className="text-sm font-medium">月度收入趋势</div>
-            <div className="text-xs text-muted-foreground mt-0.5">近6个月回款</div>
-          </div>
-          <div className="flex-1 min-w-0">
-          <ChartContainer config={{ amount: { label: "回款金额", color: "var(--primary)" } }} className="h-40 w-full">
-            <AreaChart data={incomeTrend} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+        <CardHeader className="pb-2">
+          <CardTitle>月度收入趋势</CardTitle>
+          <CardDescription>近6个月回款金额走势</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={{ amount: { label: "回款金额", color: "var(--primary)" } }} className="h-52 w-full">
+            <AreaChart data={incomeTrend} margin={{ top: 8, right: 8, left: 16, bottom: 0 }}>
               <defs>
                 <linearGradient id="fillAmount" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
@@ -55,9 +54,7 @@ export default function Page() {
               <Area type="monotone" dataKey="amount" stroke="var(--primary)" strokeWidth={2} fill="url(#fillAmount)" dot={{ fill: "var(--primary)", r: 3 }} activeDot={{ r: 5 }} isAnimationActive={false} />
             </AreaChart>
           </ChartContainer>
-          </div>
-        </div>
-        <div className="pb-2" />
+        </CardContent>
       </Card>
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
